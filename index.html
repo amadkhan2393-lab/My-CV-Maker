@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Maker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl p-6 sm:p-10">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">CV Maker</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Input Form Section -->
+            <div id="input-form">
+                <div class="bg-gray-50 rounded-lg p-6 shadow-inner">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Your Details</h2>
+                    <form id="cv-form" class="space-y-4">
+                        <div>
+                            <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="fullName" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                        </div>
+                        <div>
+                            <label for="workTitle" class="block text-sm font-medium text-gray-700">Work Title</label>
+                            <input type="text" id="workTitle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                            <input type="tel" id="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                        </div>
+                        <div>
+                            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                            <input type="text" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border">
+                        </div>
+                        <div>
+                            <label for="shortBio" class="block text-sm font-medium text-gray-700">Short Bio</label>
+                            <textarea id="shortBio" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border"></textarea>
+                        </div>
+                        <div>
+                            <label for="photo" class="block text-sm font-medium text-gray-700">Upload Photo</label>
+                            <input type="file" id="photo" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        </div>
+                        
+                        <!-- Education Section -->
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold text-gray-700 mt-6">Education</h3>
+                            <div id="education-fields">
+                                <!-- Education fields will be dynamically added here -->
+                            </div>
+                            <button type="button" id="addEducation" class="w-full py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-gray-100 transition-colors">Add More Education</button>
+                        </div>
+
+                        <!-- Experience Section -->
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold text-gray-700 mt-6">Experience</h3>
+                            <div id="experience-fields">
+                                <!-- Experience fields will be dynamically added here -->
+                            </div>
+                            <button type="button" id="addExperience" class="w-full py-2 px-4 border border-indigo-600 rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-gray-100 transition-colors">Add More Experience</button>
+                        </div>
+
+                        <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors mt-6">Generate CV</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- CV Preview Section -->
+            <div id="cv-preview" class="hidden md:block">
+                <div class="bg-white rounded-lg p-6 shadow-2xl border-2 border-gray-200">
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6 pb-6 border-b border-gray-200">
+                        <img id="cvPhoto" src="https://placehold.co/120x120" alt="Profile Photo" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-gray-200">
+                        <div class="text-center sm:text-left">
+                            <h2 id="cvFullName" class="text-3xl sm:text-4xl font-bold text-gray-800">Full Name</h2>
+                            <p id="cvWorkTitle" class="text-xl text-indigo-600 font-medium">Work Title</p>
+                            <div class="mt-2 text-gray-600">
+                                <p id="cvPhone" class="flex items-center justify-center sm:justify-start">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L10.79 12.01l.307 1.229a1 1 0 01-.152.923l-1.02 1.02a4.5 4.5 0 004.5 4.5l1.02-1.02a1 1 0 01.923-.152l1.229.307a1 1 0 01.684.948V19a2 2 0 01-2 2h-1a12.872 12.872 0 01-8.29-3.71A12.872 12.872 0 013 8.35v-1a2 2 0 012-2z"></path></svg>
+                                    (123) 456-7890
+                                </p>
+                                <p id="cvEmail" class="flex items-center justify-center sm:justify-start mt-1">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+                                    user@example.com
+                                </p>
+                                <p id="cvAddress" class="flex items-center justify-center sm:justify-start mt-1">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    123 Main St, Anytown, USA
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Bio</h3>
+                        <p id="cvShortBio" class="text-gray-700 leading-relaxed text-sm">
+                            A short and compelling professional summary goes here. This is your chance to make a great first impression on a recruiter.
+                        </p>
+                    </div>
+
+                    <!-- Education Preview Section -->
+                    <div id="education-preview-container" class="mt-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Education</h3>
+                        <div id="education-preview" class="space-y-4">
+                            <!-- Education preview items will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <!-- Experience Preview Section -->
+                    <div id="experience-preview-container" class="mt-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Experience</h3>
+                        <div id="experience-preview" class="space-y-4">
+                            <!-- Experience preview items will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const form = document.getElementById('cv-form');
+        const fullNameInput = document.getElementById('fullName');
+        const workTitleInput = document.getElementById('workTitle');
+        const phoneInput = document.getElementById('phone');
+        const emailInput = document.getElementById('email');
+        const addressInput = document.getElementById('address');
+        const shortBioInput = document.getElementById('shortBio');
+        const photoInput = document.getElementById('photo');
+
+        const cvFullName = document.getElementById('cvFullName');
+        const cvWorkTitle = document.getElementById('cvWorkTitle');
+        const cvPhone = document.getElementById('cvPhone');
+        const cvEmail = document.getElementById('cvEmail');
+        const cvAddress = document.getElementById('cvAddress');
+        const cvShortBio = document.getElementById('cvShortBio');
+        const cvPhoto = document.getElementById('cvPhoto');
+
+        const educationFields = document.getElementById('education-fields');
+        const experienceFields = document.getElementById('experience-fields');
+        const addEducationBtn = document.getElementById('addEducation');
+        const addExperienceBtn = document.getElementById('addExperience');
+        const educationPreview = document.getElementById('education-preview');
+        const experiencePreview = document.getElementById('experience-preview');
+
+        // Function to update the main preview section
+        function updateMainPreview() {
+            cvFullName.textContent = fullNameInput.value || "Full Name";
+            cvWorkTitle.textContent = workTitleInput.value || "Work Title";
+            cvPhone.innerHTML = `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L10.79 12.01l.307 1.229a1 1 0 01-.152.923l-1.02 1.02a4.5 4.5 0 004.5 4.5l1.02-1.02a1 1 0 01.923-.152l1.229.307a1 1 0 01.684.948V19a2 2 0 01-2 2h-1a12.872 12.872 0 01-8.29-3.71A12.872 12.872 0 013 8.35v-1a2 2 0 012-2z"></path></svg>${phoneInput.value || "(123) 456-7890"}`;
+            cvEmail.innerHTML = `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 13a9 9 0 110-18 9 9 0 010 18z"></path></svg><a href="mailto:${emailInput.value}" class="hover:underline">${emailInput.value || "user@example.com"}</a>`;
+            cvAddress.innerHTML = `<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>${addressInput.value || "123 Main St, Anytown, USA"}`;
+            cvShortBio.textContent = shortBioInput.value || "A short and compelling professional summary goes here. This is your chance to make a great first impression on a recruiter.";
+        }
+
+        // Function to update the education and experience preview sections
+        function updateDynamicPreviews() {
+            // Update Education preview
+            educationPreview.innerHTML = '';
+            document.querySelectorAll('#education-fields .education-entry').forEach(entry => {
+                const degree = entry.querySelector('.degree').value;
+                const school = entry.querySelector('.school').value;
+                const gradYear = entry.querySelector('.gradYear').value;
+                if (degree || school || gradYear) {
+                    educationPreview.innerHTML += `<div class="bg-gray-50 p-4 rounded-lg">
+                                                    <p class="font-bold">${degree || 'Degree'}</p>
+                                                    <p class="text-sm text-gray-600">${school || 'School / University'} <span class="float-right">${gradYear || 'Year'}</span></p>
+                                                </div>`;
+                }
+            });
+
+            // Update Experience preview
+            experiencePreview.innerHTML = '';
+            document.querySelectorAll('#experience-fields .experience-entry').forEach(entry => {
+                const jobTitle = entry.querySelector('.jobTitle').value;
+                const company = entry.querySelector('.company').value;
+                const dates = entry.querySelector('.dates').value;
+                const description = entry.querySelector('.description').value;
+                if (jobTitle || company || dates) {
+                    experiencePreview.innerHTML += `<div class="bg-gray-50 p-4 rounded-lg">
+                                                    <p class="font-bold">${jobTitle || 'Job Title'}</p>
+                                                    <p class="text-sm text-gray-600">${company || 'Company'} <span class="float-right">${dates || 'Dates'}</span></p>
+                                                    <p class="mt-2 text-sm text-gray-700 leading-snug">${description || ''}</p>
+                                                </div>`;
+                }
+            });
+        }
+
+        // Function to add a new education field set
+        function addEducationField() {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'education-entry space-y-2 mb-4 p-4 border rounded-md bg-white';
+            entryDiv.innerHTML = `
+                <input type="text" placeholder="Degree (e.g. B.Tech)" class="degree mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                <input type="text" placeholder="School/University" class="school mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                <input type="text" placeholder="Graduation Year" class="gradYear mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+            `;
+            educationFields.appendChild(entryDiv);
+        }
+
+        // Function to add a new experience field set
+        function addExperienceField() {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'experience-entry space-y-2 mb-4 p-4 border rounded-md bg-white';
+            entryDiv.innerHTML = `
+                <input type="text" placeholder="Job Title" class="jobTitle mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                <input type="text" placeholder="Company Name" class="company mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                <input type="text" placeholder="Dates (e.g. 2018-2022)" class="dates mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                <textarea placeholder="Key Responsibilities and Achievements" rows="3" class="description mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"></textarea>
+            `;
+            experienceFields.appendChild(entryDiv);
+        }
+
+        // Event Listeners
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            updateMainPreview();
+            updateDynamicPreviews();
+
+            // Handle photo upload
+            if (photoInput.files && photoInput.files[0]) {
+                const file = photoInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    cvPhoto.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Listen for changes on all input fields to provide live updates
+        form.addEventListener('input', () => {
+             updateMainPreview();
+             updateDynamicPreviews();
+        });
+
+        addEducationBtn.addEventListener('click', addEducationField);
+        addExperienceBtn.addEventListener('click', addExperienceField);
+
+        // Add initial fields on load
+        addEducationField();
+        addExperienceField();
+
+        // Initial preview update
+        updateMainPreview();
+        updateDynamicPreviews();
+    </script>
+</body>
+</html>
